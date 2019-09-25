@@ -90,7 +90,9 @@ public class MobileDAO {
 					if(method.getName().equalsIgnoreCase(methodName))
 					{
 						if(cls.getCanonicalName().equalsIgnoreCase(Mobile.class.getCanonicalName())) {
-							flag = method.getReturnType() == Integer.class ? method.invoke(e).equals(Integer.parseInt(value)) : String.valueOf(method.invoke(e)).toLowerCase().contains(value.toLowerCase());
+							flag = method.getReturnType() == Integer.class ? method.invoke(e).equals(Integer.parseInt(value)) 
+									: (method.getName().equalsIgnoreCase("getSim") ? String.valueOf(method.invoke(e)).toLowerCase().contains(value.toLowerCase())
+											:method.invoke(e).equals(value));
 							return flag == true;
 						}
 						else if(cls.getCanonicalName().equalsIgnoreCase(Hardware.class.getCanonicalName())) {
@@ -100,7 +102,7 @@ public class MobileDAO {
 						}
 						else if(cls.getCanonicalName().equalsIgnoreCase(Release.class.getCanonicalName())) {
 							Object release = e.getRelease();
-							flag = method.getReturnType() == Double.class ? method.invoke(release).equals(Double.parseDouble(value)) : String.valueOf(method.invoke(release)).toLowerCase().contains(value.toLowerCase());
+							flag = method.getReturnType() == Double.class ? method.invoke(release).equals(Double.parseDouble(value)) : method.invoke(release).equals(value);
 							return flag == true;
 						}
 					}
